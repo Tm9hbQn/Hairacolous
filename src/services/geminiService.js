@@ -13,7 +13,7 @@ export const fetchDailyInsight = async (dateStr) => {
     throw new Error("Gemini API Key is missing");
   }
 
-  const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   // Prepend current date context to the prompt
   const fullPrompt = `Today is ${dateStr}. \n\n${promptText}`;
