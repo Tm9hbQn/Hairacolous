@@ -29,7 +29,7 @@ const ProtocolStack = ({ routine }) => {
   return (
     <div className="flex flex-col gap-3 px-4 pb-12 w-full max-w-lg mx-auto relative">
         {/* Sticker */}
-        <div className="absolute -top-14 -right-2 z-20 rotate-6 bg-yellow-300 text-slate-900 px-5 py-2 rounded-full shadow-xl font-sans text-base font-bold leading-tight transform hover:scale-105 transition-transform cursor-default border-4 border-white/30 select-none text-center">
+        <div className="absolute -top-14 -right-2 z-20 rotate-6 bg-yellow-300 text-slate-900 px-5 py-2 rounded-full shadow-xl font-sans text-base font-bold leading-tight transform hover:scale-105 transition-transform cursor-default border-4 border-white select-none text-center">
             My Hair<br/>My Fare
         </div>
 
@@ -40,19 +40,19 @@ const ProtocolStack = ({ routine }) => {
         const label = getProductLabel(key);
 
         // Determine bar color and width based on dose
-        const barColor = 'bg-cyan-400';
+        const barColor = 'bg-cyan-500';
         let barWidth = '0%';
         let shadowClass = '';
 
         if (dose === 'low') {
             barWidth = '30%';
-            shadowClass = 'shadow-[0_0_8px_rgba(34,211,238,0.5)]';
+            shadowClass = 'shadow-[0_0_8px_rgba(6,182,212,0.5)]'; // Cyan-500 shadow
         } else if (dose === 'normal') {
             barWidth = '60%';
-            shadowClass = 'shadow-[0_0_15px_rgba(34,211,238,0.7)]';
+            shadowClass = 'shadow-[0_0_15px_rgba(6,182,212,0.6)]';
         } else if (dose === 'high') {
             barWidth = '100%';
-            shadowClass = 'shadow-[0_0_25px_rgba(34,211,238,0.9)] animate-pulse';
+            shadowClass = 'shadow-[0_0_25px_rgba(6,182,212,0.8)] animate-pulse';
         }
 
         return (
@@ -61,17 +61,17 @@ const ProtocolStack = ({ routine }) => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.4 }}
-            className="relative bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors group"
+            className="relative bg-white/95 border border-white/60 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all group"
           >
              {/* Header: Icon + Label */}
-             <div className="flex items-center gap-2 mb-2 text-cyan-300 drop-shadow-sm">
-                <Icon size={16} className="text-cyan-300" />
-                <span className="text-xs font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100 transition-opacity">{label}</span>
+             <div className="flex items-center gap-2 mb-2 text-cyan-700">
+                <Icon size={20} className="text-cyan-600" />
+                <span className="text-lg font-bold uppercase tracking-wider opacity-100 transition-opacity">{label}</span>
              </div>
 
              <div className="flex justify-between items-center gap-4">
                 {/* Text (Right aligned by default in RTL) */}
-                <p className="text-sm text-white/90 leading-relaxed flex-1 text-right font-light">
+                <p className="text-base text-slate-800 leading-relaxed flex-1 text-right font-medium">
                     {text}
                 </p>
 
@@ -79,9 +79,9 @@ const ProtocolStack = ({ routine }) => {
                 <div className="w-[50px] flex-shrink-0 flex flex-col items-center justify-center h-full min-h-[24px]">
                     {/* Visual Bar or Ban Icon */}
                     {dose === 'none' ? (
-                        <Ban size={20} className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.6)] animate-pulse-slow" />
+                        <Ban size={20} className="text-red-500 drop-shadow-md animate-pulse-slow" />
                     ) : (
-                        <div className="w-full h-3 bg-gray-700/50 rounded-full overflow-hidden shadow-inner">
+                        <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden shadow-inner">
                             <div
                                 className={`h-full rounded-full transition-all duration-1000 ${barColor} ${shadowClass}`}
                                 style={{ width: barWidth }}
