@@ -2,7 +2,8 @@ import React from 'react';
 
 const Background = ({ conditionId }) => {
   // Fixed gradient to ensure consistent readability and avoid drastic theme changes
-  const gradientClass = 'from-slate-900 via-purple-950 to-slate-900';
+  // Updated to be brighter, sunny, and happy as requested
+  const gradientClass = 'from-sky-400 via-purple-400 to-pink-400';
 
   return (
     <div className={`fixed inset-0 z-[-1] w-full h-full transition-colors duration-1000 bg-gradient-to-br ${gradientClass} bg-[length:400%_400%] animate-gradient-mesh`}>
