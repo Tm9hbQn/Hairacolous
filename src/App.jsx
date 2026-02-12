@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { WEATHER_DATA } from './data';
 import Background from './components/Background';
-import Header from './components/Header';
 import TimeCapsule from './components/TimeCapsule';
 import MainStatusCard from './components/MainStatusCard';
 import RoutineToggle from './components/RoutineToggle';
@@ -18,15 +17,7 @@ function App() {
     <div className="relative min-h-screen font-sans text-white overflow-x-hidden pb-10 selection:bg-pink-500 selection:text-white">
       <Background conditionId={selectedPeriod.weather_data.condition_id_detected} />
 
-      <Header />
-
-      <TimeCapsule
-        periods={WEATHER_DATA.periods}
-        selectedPeriod={selectedPeriod}
-        onSelect={setSelectedPeriod}
-      />
-
-      <main className="max-w-lg mx-auto w-full relative z-10">
+      <main className="max-w-lg mx-auto w-full relative z-10 pt-4">
         <MainStatusCard
           data={selectedPeriod.weather_data}
           summaryText={selectedPeriod.summary_text}
@@ -34,14 +25,22 @@ function App() {
           conditionId={selectedPeriod.weather_data.condition_id_detected}
         />
 
+        <TimeCapsule
+          periods={WEATHER_DATA.periods}
+          selectedPeriod={selectedPeriod}
+          onSelect={setSelectedPeriod}
+        />
+
         <RoutineToggle
           routineType={routineType}
           setRoutineType={setRoutineType}
         />
 
-        <ProtocolStack
-          routine={currentRoutine}
-        />
+        <div id="protocol-stack">
+          <ProtocolStack
+            routine={currentRoutine}
+          />
+        </div>
 
         <FooterQuote quote={selectedPeriod.funny_quote} />
       </main>

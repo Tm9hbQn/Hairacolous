@@ -27,7 +27,12 @@ const ProtocolStack = ({ routine }) => {
   const items = order.filter(key => routine[key]);
 
   return (
-    <div className="flex flex-col gap-3 px-4 pb-12 w-full max-w-lg mx-auto">
+    <div className="flex flex-col gap-3 px-4 pb-12 w-full max-w-lg mx-auto relative">
+        {/* Sticker */}
+        <div className="absolute -top-8 -right-4 z-20 rotate-12 bg-yellow-300 text-black px-4 py-2 rounded-lg shadow-xl font-dancing-script text-xl leading-tight transform hover:scale-105 transition-transform cursor-default border-2 border-white/20 select-none">
+            Hair care<br/>is my fare
+        </div>
+
       {items.map((key, index) => {
         const text = routine[key];
         const dose = getDoseLevel(text);
@@ -35,22 +40,19 @@ const ProtocolStack = ({ routine }) => {
         const label = getProductLabel(key);
 
         // Determine bar color and width based on dose
-        let barColor = 'bg-gray-500';
+        const barColor = 'bg-cyan-400';
         let barWidth = '0%';
-        let shadowColor = 'text-gray-500';
+        let shadowClass = '';
 
         if (dose === 'low') {
-            barColor = 'bg-yellow-300';
-            barWidth = '20%';
-            shadowColor = 'text-yellow-300';
+            barWidth = '30%';
+            shadowClass = 'shadow-[0_0_8px_rgba(34,211,238,0.5)]';
         } else if (dose === 'normal') {
-            barColor = 'bg-blue-400';
-            barWidth = '50%';
-            shadowColor = 'text-blue-400';
+            barWidth = '60%';
+            shadowClass = 'shadow-[0_0_15px_rgba(34,211,238,0.7)]';
         } else if (dose === 'high') {
-            barColor = 'bg-pink-500';
             barWidth = '100%';
-            shadowColor = 'text-pink-500';
+            shadowClass = 'shadow-[0_0_25px_rgba(34,211,238,0.9)] animate-pulse';
         }
 
         return (
@@ -79,9 +81,9 @@ const ProtocolStack = ({ routine }) => {
                     {dose === 'none' ? (
                         <Ban size={20} className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.6)] animate-pulse-slow" />
                     ) : (
-                        <div className="w-full h-1.5 bg-gray-700/50 rounded-full overflow-hidden shadow-inner">
+                        <div className="w-full h-3 bg-gray-700/50 rounded-full overflow-hidden shadow-inner">
                             <div
-                                className={`h-full rounded-full shadow-[0_0_8px_currentColor] transition-all duration-1000 ${barColor} ${shadowColor}`}
+                                className={`h-full rounded-full transition-all duration-1000 ${barColor} ${shadowClass}`}
                                 style={{ width: barWidth }}
                             ></div>
                         </div>
