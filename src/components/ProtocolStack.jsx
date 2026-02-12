@@ -29,8 +29,8 @@ const ProtocolStack = ({ routine }) => {
   return (
     <div className="flex flex-col gap-3 px-4 pb-12 w-full max-w-lg mx-auto relative">
         {/* Sticker */}
-        <div className="absolute -top-8 -right-4 z-20 rotate-12 bg-yellow-300 text-black px-4 py-2 rounded-lg shadow-xl font-dancing-script text-xl leading-tight transform hover:scale-105 transition-transform cursor-default border-2 border-white/20 select-none">
-            Hair care<br/>is my fare
+        <div className="absolute -top-10 -right-2 z-20 rotate-6 bg-yellow-300 text-slate-900 px-6 py-3 rounded-full shadow-xl font-heebo text-2xl font-bold tracking-wide transform hover:scale-105 transition-transform cursor-default border-4 border-white/30 select-none">
+            תקציר!
         </div>
 
       {items.map((key, index) => {

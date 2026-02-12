@@ -25,8 +25,8 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
     let index = 0;
     setDisplayedText('');
     const interval = setInterval(() => {
-      if (index < summaryText.length) {
-        setDisplayedText((prev) => prev + summaryText.charAt(index));
+      if (index <= summaryText.length) {
+        setDisplayedText(summaryText.substring(0, index));
         index++;
       } else {
         clearInterval(interval);
@@ -49,9 +49,39 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
             </div>
         )}
 
-        {/* Fluid Ball Animation */}
-        <div className="flex justify-center items-center py-2 relative z-0">
-            <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${ballClass} animate-fluid transition-all duration-1000`}></div>
+        {/* Hair Waving Animation */}
+        <div className="flex justify-center items-center py-2 relative z-0 h-32 overflow-hidden">
+             <style>
+                {`
+                  @keyframes hairWave {
+                    0% { transform: skewX(-15deg) rotate(-5deg); }
+                    50% { transform: skewX(15deg) rotate(5deg); }
+                    100% { transform: skewX(-15deg) rotate(-5deg); }
+                  }
+                `}
+             </style>
+             <svg
+                viewBox="0 0 100 100"
+                className="w-32 h-32 drop-shadow-xl"
+                style={{
+                    animation: `hairWave ${Math.max(0.5, 30 / (parseInt(data.wind) || 5))}s ease-in-out infinite transform-origin-top`
+                }}
+             >
+                <path
+                    d="M50 10 C30 10 20 30 20 50 C20 80 40 90 50 90 C60 90 80 80 80 50 C80 30 70 10 50 10 Z M50 10 Q35 30 35 60 M50 10 Q65 30 65 60"
+                    fill="url(#hairGradient)"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                />
+                <defs>
+                    <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#fcd34d" /> {/* Amber-300 */}
+                        <stop offset="50%" stopColor="#f472b6" /> {/* Pink-400 */}
+                        <stop offset="100%" stopColor="#c084fc" /> {/* Purple-400 */}
+                    </linearGradient>
+                </defs>
+             </svg>
         </div>
 
         {/* Weather Data */}
