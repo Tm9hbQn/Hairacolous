@@ -9,7 +9,7 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
       ballClass = 'from-cyan-300 via-blue-400 to-purple-400 shadow-[0_0_30px_rgba(103,232,249,0.6)]';
       break;
     case 'SAUNA_STORM':
-      ballClass = 'from-slate-700 via-indigo-800 to-purple-900 shadow-[0_0_30px_rgba(99,102,241,0.6)] animate-pulse-fast';
+      ballClass = 'from-slate-500 via-gray-600 to-slate-700 shadow-[0_0_20px_rgba(100,116,139,0.6)]';
       break;
     case 'SAUNA_CALM':
       ballClass = 'from-orange-200 via-amber-200 to-emerald-200 shadow-[0_0_30px_rgba(251,191,36,0.6)] opacity-80 blur-sm';
@@ -36,7 +36,7 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
   }, [summaryText]);
 
   return (
-    <div className="relative mx-4 mt-4 mb-6 p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden group hover:border-white/20 transition-all duration-500">
+    <div className="relative mx-4 mt-4 mb-6 p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl group hover:border-white/20 transition-all duration-500">
 
         {/* Background glow */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
@@ -50,13 +50,8 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
         )}
 
         {/* Fluid Ball Animation */}
-        <div className="flex justify-center items-center py-8 relative z-0">
-            <div className={`w-32 h-32 rounded-full bg-gradient-to-br ${ballClass} animate-fluid transition-all duration-1000`}></div>
-
-            {/* Wind Effect overlay if stormy */}
-            {conditionId === 'SAUNA_STORM' && (
-                <div className="absolute w-40 h-1 bg-white/30 blur-md rotate-12 animate-wind-gust top-1/2"></div>
-            )}
+        <div className="flex justify-center items-center py-2 relative z-0">
+            <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${ballClass} animate-fluid transition-all duration-1000`}></div>
         </div>
 
         {/* Weather Data */}

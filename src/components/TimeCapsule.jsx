@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const TimeCapsule = ({ periods, selectedPeriod, onSelect }) => {
   return (
-    <div className="sticky top-[80px] z-40 flex justify-center w-full px-4 mb-6">
+    <div className="sticky top-4 z-40 flex justify-center w-full px-4 mb-6">
       <div className="relative flex items-center bg-black/20 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-lg ring-1 ring-white/5">
         {periods.map((period) => {
           const isSelected = selectedPeriod.period_name === period.period_name;
