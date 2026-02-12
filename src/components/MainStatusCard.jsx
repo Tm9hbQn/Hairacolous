@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Wind, Droplets, ThermometerSun, AlertTriangle } from 'lucide-react';
-import { WEATHER_DATA } from '../data';
 
-const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
+const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
   // Typewriter effect logic
   const [displayedText, setDisplayedText] = useState('');
 
@@ -19,6 +18,11 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
     }, 30); // Speed of typing
     return () => clearInterval(interval);
   }, [summaryText]);
+
+  // Calculate max text length for layout stability, safely handling missing data
+  const maxText = allPeriods && allPeriods.length > 0
+    ? allPeriods.reduce((max, p) => (p.summary_text && p.summary_text.length > max.length ? p.summary_text : max), "")
+    : summaryText;
 
   return (
     <div className="relative mx-4 mt-4 mb-6 p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl group hover:border-white/20 transition-all duration-500">
@@ -122,7 +126,7 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
         <div className="relative z-10 bg-black/10 rounded-xl p-3 border border-white/5 text-center">
             {/* Invisible spacer to maintain height based on longest possible text */}
             <p className="text-sm md:text-base text-transparent font-medium leading-relaxed font-sans select-none pointer-events-none" aria-hidden="true">
-                {WEATHER_DATA.periods.reduce((max, p) => p.summary_text.length > max.length ? p.summary_text : max, "")}
+                {maxText}
             </p>
             {/* Actual text overlay */}
             <p className="absolute top-3 left-3 right-3 text-sm md:text-base text-white font-medium leading-relaxed drop-shadow-sm font-sans">
