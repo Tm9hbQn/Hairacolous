@@ -3,6 +3,7 @@ import { useHairData } from './hooks/useHairData';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorDisplay from './components/ErrorDisplay';
 import Background from './components/Background';
+import Header from './components/Header';
 import TimeCapsule from './components/TimeCapsule';
 import MainStatusCard from './components/MainStatusCard';
 import RoutineToggle from './components/RoutineToggle';
@@ -37,12 +38,7 @@ function App() {
       <Background />
 
       <main className="max-w-lg mx-auto w-full relative z-10 pt-4">
-        <MainStatusCard
-          data={selectedPeriod.weather_data}
-          summaryText={selectedPeriod.summary_text}
-          uvAlert={selectedPeriod.uv_alert}
-          allPeriods={data.periods}
-        />
+        <Header />
 
         <TimeCapsule
           periods={data.periods}
@@ -50,12 +46,19 @@ function App() {
           onSelect={setUserSelectedPeriod}
         />
 
+        <MainStatusCard
+          data={selectedPeriod.weather_data}
+          summaryText={selectedPeriod.summary_text}
+          uvAlert={selectedPeriod.uv_alert}
+          allPeriods={data.periods}
+        />
+
         <RoutineToggle
           routineType={routineType}
           setRoutineType={setRoutineType}
         />
 
-        <div id="protocol-stack">
+        <div id="protocol-stack" className="mt-6">
           <ProtocolStack
             routine={currentRoutine}
           />
