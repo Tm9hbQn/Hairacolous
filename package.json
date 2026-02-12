@@ -1,6 +1,7 @@
 {
   "name": "app",
   "private": true,
+  "homepage": "https://Tm9hbQn.github.io/Hairacolous",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

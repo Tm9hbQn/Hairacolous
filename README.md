@@ -27,3 +27,23 @@ To enable deployment:
 1.  Go to **Settings** > **Pages** in your GitHub repository.
 2.  Under **Build and deployment**, select **GitHub Actions** as the source.
 3.  The deployment will trigger automatically on the next push to the `main` branch.
+
+🚀 Deployment Instructions (Manual Steps Required)
+This repository has been configured for automatic deployment via GitHub Actions. However, for security reasons, you must manually enable the deployment settings in your repository.
+Please follow these 3 steps exactly:
+1. Enable Actions for Pages
+ * Go to your repository on GitHub.
+ * Click the Settings tab (gear icon).
+ * In the left sidebar, click Pages (under the "Code and automation" section).
+ * Under Build and deployment > Source, change the dropdown from "Deploy from a branch" to GitHub Actions.
+   * Note: If you don't see this option, ensure your repository is public or you have a pro account.
+2. Grant Workflow Permissions
+ * Still in Settings, click Actions > General in the left sidebar.
+ * Scroll down to the Workflow permissions section.
+ * Select Read and write permissions.
+ * Click Save.
+3. Trigger the First Deploy
+ * Go to the Actions tab at the top of your repository.
+ * You may see a workflow run labeled "Initial Commit" or similar.
+   * If it's green: Click it, then click the link under "deploy" to see your site!
+   * If it's not running: Make a small edit to this README.md file (add a space) and commit the change. This will trigger the "Deploy to GitHub Pages" workflow automatically.
