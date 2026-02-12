@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Wind, Droplets, ThermometerSun, AlertTriangle } from 'lucide-react';
+import { WEATHER_DATA } from '../data';
 
 const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
-  // Determine ball color/style based on condition
-  let ballClass = '';
-  switch (conditionId) {
-    case 'PERFECT_DAY':
-      ballClass = 'from-cyan-300 via-blue-400 to-purple-400 shadow-[0_0_30px_rgba(103,232,249,0.6)]';
-      break;
-    case 'SAUNA_STORM':
-      ballClass = 'from-slate-500 via-gray-600 to-slate-700 shadow-[0_0_20px_rgba(100,116,139,0.6)]';
-      break;
-    case 'SAUNA_CALM':
-      ballClass = 'from-orange-200 via-amber-200 to-emerald-200 shadow-[0_0_30px_rgba(251,191,36,0.6)] opacity-80 blur-sm';
-      break;
-    default:
-      ballClass = 'from-gray-300 to-white';
-  }
-
   // Typewriter effect logic
   const [displayedText, setDisplayedText] = useState('');
 
@@ -53,34 +38,67 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
         <div className="flex justify-center items-center py-2 relative z-0 h-32 overflow-hidden">
              <style>
                 {`
-                  @keyframes hairWave {
-                    0% { transform: skewX(-15deg) rotate(-5deg); }
-                    50% { transform: skewX(15deg) rotate(5deg); }
-                    100% { transform: skewX(-15deg) rotate(-5deg); }
+                  @keyframes threadFlutter {
+                    0% { transform: scaleX(1) skewY(0deg); }
+                    50% { transform: scaleX(0.9) skewY(15deg); }
+                    100% { transform: scaleX(1) skewY(0deg); }
+                  }
+                  @keyframes threadFlutterReverse {
+                    0% { transform: scaleX(1) skewY(0deg); }
+                    50% { transform: scaleX(0.9) skewY(-15deg); }
+                    100% { transform: scaleX(1) skewY(0deg); }
                   }
                 `}
              </style>
              <svg
                 viewBox="0 0 100 100"
                 className="w-32 h-32 drop-shadow-xl"
-                style={{
-                    animation: `hairWave ${Math.max(0.5, 30 / (parseInt(data.wind) || 5))}s ease-in-out infinite transform-origin-top`
-                }}
              >
-                <path
-                    d="M50 10 C30 10 20 30 20 50 C20 80 40 90 50 90 C60 90 80 80 80 50 C80 30 70 10 50 10 Z M50 10 Q35 30 35 60 M50 10 Q65 30 65 60"
-                    fill="url(#hairGradient)"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                />
-                <defs>
-                    <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#fcd34d" /> {/* Amber-300 */}
-                        <stop offset="50%" stopColor="#f472b6" /> {/* Pink-400 */}
-                        <stop offset="100%" stopColor="#c084fc" /> {/* Purple-400 */}
-                    </linearGradient>
-                </defs>
+                {/* Threads Group - Positioned at Nozzle */}
+                <g transform="translate(55, 40)">
+                     {/* Thread 1 (Top) */}
+                     <g style={{
+                            animation: `threadFlutter ${Math.max(0.2, 20 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            transformOrigin: "0 0"
+                        }}>
+                        <path
+                            d="M 0 -5 C -15 -15, -30 -5, -45 -15"
+                            stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.9"
+                        />
+                     </g>
+
+                     {/* Thread 2 (Bottom) */}
+                     <g style={{
+                            animation: `threadFlutterReverse ${Math.max(0.2, 25 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            transformOrigin: "0 0"
+                        }}>
+                         <path
+                            d="M 0 5 C -15 15, -30 5, -45 15"
+                            stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.9"
+                         />
+                     </g>
+
+                     {/* Thread 3 (Middle/Paper) */}
+                     <g style={{
+                            animation: `threadFlutter ${Math.max(0.2, 15 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            animationDelay: '0.1s',
+                            transformOrigin: "0 0"
+                        }}>
+                         <rect x="-40" y="-2" width="40" height="4" fill="white" opacity="0.7" rx="1" />
+                     </g>
+                </g>
+
+                {/* Dryer */}
+                <g>
+                  {/* Handle */}
+                  <path d="M85 50 L80 85 A 5 5 0 0 0 90 85 L95 50 Z" fill="#be185d" />
+                  {/* Body */}
+                  <path d="M60 25 H 95 A 10 10 0 0 1 105 35 V 45 A 10 10 0 0 1 95 55 H 60 Z" fill="#f472b6" />
+                  {/* Nozzle */}
+                  <rect x="55" y="30" width="10" height="20" fill="#db2777" rx="2" />
+                  {/* Highlight */}
+                  <ellipse cx="95" cy="40" rx="3" ry="8" fill="rgba(255,255,255,0.3)" transform="rotate(-20 95 40)" />
+                </g>
              </svg>
         </div>
 
@@ -101,8 +119,13 @@ const MainStatusCard = ({ data, summaryText, uvAlert, conditionId }) => {
         </div>
 
         {/* Summary Text (Typewriter) */}
-        <div className="min-h-[60px] text-center relative z-10 bg-black/10 rounded-xl p-3 border border-white/5">
-            <p className="text-sm md:text-base text-white font-medium leading-relaxed drop-shadow-sm font-sans">
+        <div className="relative z-10 bg-black/10 rounded-xl p-3 border border-white/5 text-center">
+            {/* Invisible spacer to maintain height based on longest possible text */}
+            <p className="text-sm md:text-base text-transparent font-medium leading-relaxed font-sans select-none pointer-events-none" aria-hidden="true">
+                {WEATHER_DATA.periods.reduce((max, p) => p.summary_text.length > max.length ? p.summary_text : max, "")}
+            </p>
+            {/* Actual text overlay */}
+            <p className="absolute top-3 left-3 right-3 text-sm md:text-base text-white font-medium leading-relaxed drop-shadow-sm font-sans">
                 {displayedText}<span className="animate-blink">|</span>
             </p>
         </div>
