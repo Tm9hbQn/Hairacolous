@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Background = ({ conditionId }) => {
+const Background = () => {
   // Fixed gradient to ensure consistent readability and avoid drastic theme changes
   // Updated to be brighter, sunny, and happy as requested
   const gradientClass = 'from-sky-400 via-purple-400 to-pink-400';
