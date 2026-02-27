@@ -35,7 +35,8 @@ function App() {
 
   return (
     <div className="relative min-h-screen font-sans text-white overflow-x-hidden pb-10 selection:bg-pink-500 selection:text-white">
-      <Background />
+      {/* Fix #5: pass conditionId so Background renders the correct weather gradient */}
+      <Background conditionId={selectedPeriod?.weather_data?.condition_id_detected} />
 
       <main className="max-w-lg mx-auto w-full relative z-10 pt-4">
         <Header />

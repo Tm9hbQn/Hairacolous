@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Wind, Droplets, ThermometerSun, AlertTriangle } from 'lucide-react';
+import { parseNumericValue } from '../utils'; // Fix #12
 
 const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
   // Typewriter effect logic
@@ -15,14 +16,17 @@ const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
       } else {
         clearInterval(interval);
       }
-    }, 30); // Speed of typing
+    }, 30);
     return () => clearInterval(interval);
   }, [summaryText]);
 
-  // Calculate max text length for layout stability, safely handling missing data
+  // Calculate max text length for layout stability
   const maxText = allPeriods && allPeriods.length > 0
     ? allPeriods.reduce((max, p) => (p.summary_text && p.summary_text.length > max.length ? p.summary_text : max), "")
     : summaryText;
+
+  // Fix #12: safe numeric extraction from "22 km/h" style strings
+  const windSpeed = parseNumericValue(data.wind, 5);
 
   return (
     <div className="relative mx-4 mt-4 mb-6 p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl group hover:border-white/20 transition-all duration-500">
@@ -30,11 +34,11 @@ const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
         {/* Background glow */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-        {/* UV Alert Badge - Left Corner */}
-        {uvAlert && (uvAlert !== 'Low' && uvAlert !== 'null') && (
+        {/* Fix #6 + #13: UV Alert Badge — shows real alert text, correct null check */}
+        {uvAlert && typeof uvAlert === 'string' && uvAlert.length > 0 && (
             <div className="absolute top-4 left-4 bg-orange-500/20 border border-orange-500/50 text-orange-300 px-3 py-1 rounded-full text-xs font-bold animate-pulse flex items-center gap-1 shadow-[0_0_10px_rgba(249,115,22,0.4)] z-10">
                 <AlertTriangle className="w-3 h-3" />
-                UV HIGH
+                {uvAlert}
             </div>
         )}
 
@@ -60,9 +64,9 @@ const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
              >
                 {/* Threads Group - Positioned at Nozzle */}
                 <g transform="translate(55, 40)">
-                     {/* Thread 1 (Top) */}
+                     {/* Thread 1 (Top) — Fix #12: uses parseNumericValue instead of parseInt */}
                      <g style={{
-                            animation: `threadFlutter ${Math.max(0.2, 20 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            animation: `threadFlutter ${Math.max(0.2, 20 / (windSpeed || 5))}s ease-in-out infinite`,
                             transformOrigin: "0 0"
                         }}>
                         <path
@@ -73,7 +77,7 @@ const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
 
                      {/* Thread 2 (Bottom) */}
                      <g style={{
-                            animation: `threadFlutterReverse ${Math.max(0.2, 25 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            animation: `threadFlutterReverse ${Math.max(0.2, 25 / (windSpeed || 5))}s ease-in-out infinite`,
                             transformOrigin: "0 0"
                         }}>
                          <path
@@ -84,7 +88,7 @@ const MainStatusCard = ({ data, summaryText, uvAlert, allPeriods }) => {
 
                      {/* Thread 3 (Middle/Paper) */}
                      <g style={{
-                            animation: `threadFlutter ${Math.max(0.2, 15 / (parseInt(data.wind) || 5))}s ease-in-out infinite`,
+                            animation: `threadFlutter ${Math.max(0.2, 15 / (windSpeed || 5))}s ease-in-out infinite`,
                             animationDelay: '0.1s',
                             transformOrigin: "0 0"
                         }}>
